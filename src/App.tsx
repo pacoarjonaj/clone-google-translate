@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import { Button, Container, Col, Row } from 'react-bootstrap'
 import './App.css'
+import { useStore } from './hooks/useStore'
+import { AUTO_LANGUAGE } from './constants'
+import { ArrowsIcon } from './components/Icons'
+import { LanguageSelector } from './components/LanguageSelector'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+	const { fromLanguage, toLanguage, interchangeLanguages, setFromLanguage, setToLanguage } = useStore()
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	return (
+		<Container fluid>
+			<h1>Google Translate</h1>
+
+			<Row>
+				<Col>
+					<LanguageSelector
+						type='from'
+						value={fromLanguage}
+						onChange={setFromLanguage}
+					/>
+					{fromLanguage}
+				</Col>
+
+				<Col>
+					<Button variant='link' disabled={fromLanguage === AUTO_LANGUAGE} onClick={interchangeLanguages}>
+						<ArrowsIcon />
+					</Button>
+				</Col>
+
+				<Col>
+				<LanguageSelector
+						type='to'
+						value={toLanguage}
+						onChange={setToLanguage}
+					/>
+					{toLanguage}
+				</Col>
+			</Row>
+
+		</Container>
+	)
 }
 
 export default App
